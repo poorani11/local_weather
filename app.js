@@ -1,5 +1,5 @@
 if("geolocation" in navigator){
-  navigation.geolaction.getCurrentPosition(function(){
+  navigator.geolocation.getCurrentPosition(function(position){
     loadWeather(position.coords.latitude + ',' + position.coords.longitude);
 
 });
@@ -9,8 +9,8 @@ if("geolocation" in navigator){
 
 
 $(document).ready(function(){
-  setInterval(getWeather,10000);
-}
+  setInterval(loadWeather,10000);
+});
 
 function loadWeather(location,woeid){
 $.simpleWeather({
@@ -23,8 +23,17 @@ $.simpleWeather({
     wcode = '<img class="weathericon" src="images/weathericons/' + weather.code + '.svg">';
     wind = '<p>' + weather.wind.speed + '</p><p>' + weather.units.speed + '</p>';
     humidity = weather.humidity +'%';
+
+    $(".location").text(city);
+    $(".temperature").html(temp);
+    $(".climate_bg").html(wcode);
+    $(".windspeed").html(wind);
+    $(".humidity").html(humidity);
+  },
+  error:function(error){
+    $(".error").html('<p>' + error + '</p>');
   }
-})
+
+});
 }
 
-)
